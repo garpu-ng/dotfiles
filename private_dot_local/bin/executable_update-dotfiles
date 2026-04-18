@@ -1,0 +1,21 @@
+#!/bin/bash
+# Sync current $HOME config state into the chezmoi source dir and push to GitHub.
+# Usage: update-dotfiles [commit-message]
+
+set -euo pipefail
+
+SRC="$HOME/.local/share/chezmoi"
+
+chezmoi re-add
+
+cd "$SRC"
+git add -A
+
+if git diff --cached --quiet; then
+    echo "No changes."
+    exit 0
+fi
+
+git diff --cached --stat
+git commit -m "${1:-update dotfiles}"
+git push
