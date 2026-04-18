@@ -1,3 +1,5 @@
+Note: Written by Claude Code
+
 # dotfiles
 
 My personal configs for Arch Linux + Hyprland, managed with [chezmoi](https://www.chezmoi.io/).
