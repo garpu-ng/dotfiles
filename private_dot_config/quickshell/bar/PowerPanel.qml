@@ -74,7 +74,7 @@ Scope {
             anchors.margins: 12
             spacing: 4
 
-            Text { text: "SYSTEM"; font.family: "Jost"; font.pixelSize: 9; font.weight: Font.DemiBold; font.letterSpacing: 1; color: "#40ffffff"; Layout.preferredWidth: 200 }
+            Text { text: "電源"; font.family: "Noto Sans CJK JP"; font.pixelSize: 13; font.weight: Font.Medium; color: "#c0ffffff"; Layout.preferredWidth: 200 }
 
             Repeater {
               model: root.actions

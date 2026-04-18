@@ -1,0 +1,24 @@
+#!/bin/bash
+# Super+C toggle for Claude Code scratchpad.
+# First invocation spawns ghostty with `claude --resume main` on special:claude.
+# Subsequent invocations toggle the special workspace visible/hidden.
+
+set -u
+
+CLASS="com.kaan.claude-code"
+
+if hyprctl clients | grep -q "class: ${CLASS}$"; then
+    hyprctl dispatch togglespecialworkspace claude
+    exit 0
+fi
+
+ghostty --class="${CLASS}" -e "${HOME}/.local/bin/claude" --dangerously-skip-permissions --resume main &
+disown
+
+for _ in $(seq 1 20); do
+    sleep 0.25
+    if hyprctl clients | grep -q "class: ${CLASS}$"; then
+        hyprctl dispatch togglespecialworkspace claude
+        exit 0
+    fi
+done

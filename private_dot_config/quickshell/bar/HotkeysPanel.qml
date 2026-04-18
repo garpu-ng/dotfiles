@@ -104,10 +104,9 @@ Scope {
             spacing: 6
 
             Text {
-              text: "HOTKEYS"
-              font.family: "Jost"; font.pixelSize: 9; font.weight: Font.DemiBold
-              font.letterSpacing: 1
-              color: "#40ffffff"
+              text: "鍵"
+              font.family: "Noto Sans CJK JP"; font.pixelSize: 13; font.weight: Font.Medium
+              color: "#c0ffffff"
               Layout.fillWidth: true
             }
 

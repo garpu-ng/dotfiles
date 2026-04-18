@@ -1,0 +1,15 @@
+#!/bin/bash
+# Toggle a "gaming mode": mutes notifications via mako DND, leaves a state flag,
+# shows Japanese status notification.
+
+STATE="$HOME/.cache/gamemode-toggle-state"
+
+if [[ -f "$STATE" ]]; then
+    rm -f "$STATE"
+    makoctl mode -r do-not-disturb 2>/dev/null || true
+    notify-send "ゲームモード" "無効" -i applications-games -t 3000
+else
+    touch "$STATE"
+    makoctl mode -a do-not-disturb 2>/dev/null || true
+    notify-send "ゲームモード" "有効" -i applications-games -t 3000
+fi

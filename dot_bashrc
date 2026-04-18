@@ -7,7 +7,11 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
+
+# Katakana hostname for prompt display (system hostname stays ASCII)
+HOSTNAME_PRETTY="$(hostnamectl --pretty 2>/dev/null)"
+HOSTNAME_PRETTY="${HOSTNAME_PRETTY:-\h}"
+PS1='[\u@'"$HOSTNAME_PRETTY"' \W] 喝\$ '
 export PATH="$HOME/.local/bin:$PATH"
 
 # Run fastfetch on Ghostty startup

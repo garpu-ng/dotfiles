@@ -1,4 +1,5 @@
 font=Jost 12
+format=<b>[通知]</b> %s\n%b
 background-color=#14141990
 text-color=#ffffffdd
 border-color=#ffffff14

@@ -85,6 +85,13 @@ Scope {
           anchors.margins: 12
           spacing: 4
 
+          // ── Title ──
+          Text {
+            text: "音楽"
+            font.family: "Noto Sans CJK JP"; font.pixelSize: 13; font.weight: Font.Medium
+            color: "#c0ffffff"; Layout.fillWidth: true
+          }
+
           // ── Cover + Info ──
           RowLayout {
             Layout.fillWidth: true; spacing: 12

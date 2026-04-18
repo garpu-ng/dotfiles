@@ -116,7 +116,8 @@ Scope {
             anchors.verticalCenter: parent.verticalCenter
             visible: root.activePlayer !== null
             hoverEnabled: true
-            onEntered: mediaShowProc.running = true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: mediaShowProc.running = true
             onExited: mediaHideProc.running = true
 
           Row {
@@ -221,7 +222,7 @@ Scope {
           height: parent.height
           hoverEnabled: true
           cursorShape: Qt.PointingHandCursor
-          onEntered: hotkeysShowProc.running = true
+          onClicked: hotkeysShowProc.running = true
           onExited:  hotkeysHideProc.running = true
 
           Row {
@@ -306,31 +307,58 @@ Scope {
             anchors.verticalCenter: parent.verticalCenter
           }
 
-          // Network
+          // Special workspace toggle (魔 = magic)
+          Text {
+            id: specialText
+            text: "魔"
+            font.family: root.fontCJK
+            font.pixelSize: 13
+            color: root.textDim
+            anchors.verticalCenter: parent.verticalCenter
+
+            MouseArea {
+              anchors.fill: parent
+              hoverEnabled: true
+              cursorShape: Qt.PointingHandCursor
+              onEntered: parent.color = root.textPrimary
+              onExited: parent.color = root.textDim
+              onClicked: specialToggleProc.running = true
+            }
+          }
+
+          // Separator
+          Text {
+            text: "│"; font.pixelSize: 12
+            color: "#1fffffff"
+            anchors.verticalCenter: parent.verticalCenter
+          }
+
+          // Network (有線/無線/切断)
           Text {
             text: NetworkInfo.networkText
-            font.family: root.fontUI; font.pixelSize: 12
+            font.family: root.fontCJK; font.pixelSize: 12
             color: root.textDim
             anchors.verticalCenter: parent.verticalCenter
           }
 
-          // Volume
+          // Volume (音: XX%)
           Text {
             id: volText
             text: {
               const sink = Pipewire.defaultAudioSink;
-              if (!sink || !sink.audio) return "  0%";
+              if (!sink || !sink.audio) return "音: 0%";
               const vol = Math.round(sink.audio.volume * 100);
-              return "  " + vol + "%";
+              return "音: " + vol + "%";
             }
-            font.family: root.fontUI; font.pixelSize: 12
+            font.family: root.fontCJK; font.pixelSize: 12
             color: root.textDim
             anchors.verticalCenter: parent.verticalCenter
 
             MouseArea {
               anchors.fill: parent; cursorShape: Qt.PointingHandCursor
               hoverEnabled: true
-              onEntered: { parent.color = root.textPrimary; audioShowProc.running = true; }
+              onEntered: parent.color = root.textPrimary
+              onClicked: audioShowProc.running = true
               onExited: { parent.color = root.textDim; audioHideProc.running = true; }
               onWheel: wheel => {
                 const sink = Pipewire.defaultAudioSink;
@@ -357,7 +385,8 @@ Scope {
             MouseArea {
               anchors.fill: parent; cursorShape: Qt.PointingHandCursor
               hoverEnabled: true
-              onEntered: { parent.color = root.textPrimary; powerShowProc.running = true; }
+              onEntered: parent.color = root.textPrimary
+              onClicked: powerShowProc.running = true
               onExited: { parent.color = root.textDim; powerHideProc.running = true; }
             }
           }
@@ -370,6 +399,7 @@ Scope {
       Process { id: powerShowProc; command: ["qs", "msg", "power", "show"]; running: false }
       Process { id: powerHideProc; command: ["qs", "msg", "power", "hide"]; running: false }
       Process { id: mediaShowProc; command: ["qs", "msg", "media", "show"]; running: false }
+      Process { id: specialToggleProc; command: ["hyprctl", "dispatch", "togglespecialworkspace", "magic"]; running: false }
       Process { id: mediaHideProc; command: ["qs", "msg", "media", "hide"]; running: false }
       Process { id: hotkeysShowProc; command: ["qs", "msg", "hotkeys", "show"]; running: false }
       Process { id: hotkeysHideProc; command: ["qs", "msg", "hotkeys", "hide"]; running: false }

@@ -81,6 +81,13 @@ Scope {
             anchors.top: parent.top; anchors.margins: 12
             spacing: 8
 
+            // ── Title ──
+            Text {
+              text: "音声"
+              font.family: "Noto Sans CJK JP"; font.pixelSize: 13; font.weight: Font.Medium
+              color: "#c0ffffff"; Layout.fillWidth: true
+            }
+
             // ── Master Volume ──
             Rectangle {
               Layout.fillWidth: true
