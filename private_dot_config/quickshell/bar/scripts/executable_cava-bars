@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Single-instance lock to prevent process leak on quickshell restarts
+exec 200>/tmp/quickshell-cava-bars.lock
+flock -n 200 || exit 0
+
+BAR="▁▂▃▄▅▆▇█"
+
+cava -p ~/.config/quickshell/bar/scripts/cava.conf 2>/dev/null | while IFS=';' read -r a b c d e f g h i j _; do
+    printf '%s' "${BAR:${a:-0}:1}${BAR:${b:-0}:1}${BAR:${c:-0}:1}${BAR:${d:-0}:1}${BAR:${e:-0}:1}${BAR:${f:-0}:1}${BAR:${g:-0}:1}${BAR:${h:-0}:1}${BAR:${i:-0}:1}${BAR:${j:-0}:1}"
+    echo
+done

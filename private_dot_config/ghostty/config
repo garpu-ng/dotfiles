@@ -1,0 +1,11 @@
+font-family = ProggyClean Nerd Font Mono
+font-size = 12
+background = #000000
+background-opacity = 0.75
+background-blur-radius = 20
+window-decoration = false
+window-padding-x = 12
+window-padding-y = 8
+cursor-style = bar
+cursor-style-blink = true
+gtk-titlebar = false

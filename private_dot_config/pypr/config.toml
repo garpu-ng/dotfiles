@@ -1,0 +1,13 @@
+[pyprland]
+plugins = ["scratchpads"]
+
+[scratchpads.spotify]
+animation = "fromTop"
+command = "spotify-launcher"
+class = "Spotify"
+size = "70% 75%"
+max_size = "1400px 900px"
+margin = 50
+lazy = true
+unfocus = "hide"
+

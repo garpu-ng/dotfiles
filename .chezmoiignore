@@ -1,0 +1,7 @@
+# never track
+README.md
+LICENSE
+
+# binary artifacts and placeholders
+.config/hypr/wallpaper.png
+.config/hypr/.plugin-installed

@@ -1,0 +1,43 @@
+#!/bin/bash
+# Toggle active window to max-fitting 16:9 floating centered on the focused monitor,
+# respecting Hyprland gaps_out and quickshell bar (reserved area).
+
+active=$(hyprctl activewindow -j)
+floating=$(echo "$active" | jq -r '.floating')
+win_w=$(echo "$active" | jq -r '.size[0]')
+win_h=$(echo "$active" | jq -r '.size[1]')
+
+# Target dimensions computed from focused monitor
+mon=$(hyprctl monitors -j | jq '.[] | select(.focused == true)')
+w=$(echo "$mon"   | jq '.width')
+h=$(echo "$mon"   | jq '.height')
+mx=$(echo "$mon"  | jq '.x')
+my=$(echo "$mon"  | jq '.y')
+rl=$(echo "$mon"  | jq '.reserved[0]')
+rt=$(echo "$mon"  | jq '.reserved[1]')
+rr=$(echo "$mon"  | jq '.reserved[2]')
+rb=$(echo "$mon"  | jq '.reserved[3]')
+
+gap=$(hyprctl getoption general:gaps_out -j | jq '.custom' | tr -d '"' | awk '{print $1}')
+[ -z "$gap" ] && gap=8
+
+avail_w=$((w - rl - rr - 2*gap))
+avail_h=$((h - rt - rb - 2*gap))
+
+# Fit 16:9, maxing out the smaller axis
+target_h=$avail_h
+target_w=$((target_h * 16 / 9))
+if [ "$target_w" -gt "$avail_w" ]; then
+    target_w=$avail_w
+    target_h=$((target_w * 9 / 16))
+fi
+
+pos_x=$((mx + rl + gap + (avail_w - target_w) / 2))
+pos_y=$((my + rt + gap + (avail_h - target_h) / 2))
+
+if [ "$floating" = "true" ] && [ "$win_w" = "$target_w" ] && [ "$win_h" = "$target_h" ]; then
+    hyprctl dispatch togglefloating
+else
+    [ "$floating" = "false" ] && hyprctl dispatch togglefloating
+    hyprctl --batch "dispatch resizeactive exact $target_w $target_h ; dispatch moveactive exact $pos_x $pos_y"
+fi

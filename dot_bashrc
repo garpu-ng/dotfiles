@@ -1,0 +1,17 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+PS1='[\u@\h \W]\$ '
+export PATH="$HOME/.local/bin:$PATH"
+
+# Run fastfetch on Ghostty startup
+if [ "$TERM_PROGRAM" = "ghostty" ] && [ -z "$FASTFETCH_SHOWN" ]; then
+    export FASTFETCH_SHOWN=1
+    command -v fastfetch >/dev/null && { fastfetch; echo; }
+fi
